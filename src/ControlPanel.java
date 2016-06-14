@@ -12,8 +12,6 @@ public class ControlPanel extends JPanel implements ActionListener, ChangeListen
 
     public ControlPanel() {
         this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
-        this.setPreferredSize(new Dimension(getWidth(), 190));
-
         JPanel checkBoxTable = new JPanel(new GridLayout(0,2));
         JPanel lightConfigTable = new JPanel();
         JPanel sensorConfigTable = new JPanel();
@@ -68,7 +66,6 @@ public class ControlPanel extends JPanel implements ActionListener, ChangeListen
 
         // アニメーションパネル
         JPanel animationPanel = new JPanel();
-        animationPanel.setPreferredSize(new Dimension(getWidth(), 20));
         animationPanel.setLayout(new FlowLayout());
 
         JButton btn_play = new JButton("Play");
@@ -89,7 +86,6 @@ public class ControlPanel extends JPanel implements ActionListener, ChangeListen
 
         // ステップの切り替え
         JPanel stepPanel = new JPanel();
-        stepPanel.setPreferredSize(new Dimension(getWidth(), 30));
         GridBagLayout gbl = new GridBagLayout();
         stepPanel.setLayout(gbl);
 
