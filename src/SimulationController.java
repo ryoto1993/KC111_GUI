@@ -48,7 +48,6 @@ public class SimulationController {
                     JSVGCanvas canvas = new JSVGCanvas();
                     canvas.setURI("svg/light_op.svg");
                     canvas.setBounds((lights.get(lights.size()-1).getX()-1)*50, (lights.get(lights.size()-1).getY()-1)*50, 50, 50);
-                    canvas.setBackground(new Color(242, 150, 0));
                     light_canvas.add(canvas);
                 }
             }
