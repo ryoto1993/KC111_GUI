@@ -16,8 +16,8 @@ public class SimulationController {
     public static ArrayList<Sensor> sensors = new ArrayList<>();
     public static ArrayList<JLabel> luminosityLabels = new ArrayList<>();
     public static ArrayList<JLabel> luminosityPctLabels = new ArrayList<>();
-    public static ArrayList<JLabel> luminanceLabels = new ArrayList<>();
-    public static ArrayList<JLabel> targetLuminanceLabels = new ArrayList<>();
+    public static ArrayList<JLabel> illuminanceLabels = new ArrayList<>();
+    public static ArrayList<JLabel> targetIlluminanceLabels = new ArrayList<>();
     public static ArrayList<JSVGCanvas> light_canvas = new ArrayList<>();
     public static ArrayList<JSVGCanvas> sensor_canvas = new ArrayList<>();
     private static int step = 0;
@@ -27,6 +27,8 @@ public class SimulationController {
     public static JSlider animationSpeed = new JSlider(1, 20);
     public static JSlider sl_step = new JSlider();
     private static AnimationThread thread;
+    public static boolean isIlluminanceLoaded = false;
+    public static JCheckBox checkBox_showIlluminance;
 
 
     public static void setLight() {
@@ -36,7 +38,8 @@ public class SimulationController {
 
             // 初期化
             lights.clear();
-            luminanceLabels.clear();
+            illuminanceLabels.clear();
+            luminosityLabels.clear();
             luminosityPctLabels.clear();
             light_canvas.clear();
 
@@ -82,8 +85,8 @@ public class SimulationController {
                 while (st.hasMoreTokens()) {
                     // 1行の各要素をタブ区切りで表示
                     sensors.add(new Sensor(Double.parseDouble(st.nextToken()), Double.parseDouble(st.nextToken())));
-                    luminanceLabels.add(new JLabel());
-                    targetLuminanceLabels.add(new JLabel());
+                    illuminanceLabels.add(new JLabel());
+                    targetIlluminanceLabels.add(new JLabel());
 
                     JSVGCanvas canvas = new JSVGCanvas();
                     canvas.setURI("svg/sensor.svg");
@@ -167,6 +170,38 @@ public class SimulationController {
 
     }
 
+    public static void setSensorHistory(File csv) {
+        for(int i=0; i<sensors.size(); i++) {
+            sensors.get(i).clearHistory();
+        }
+
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(csv));
+
+            // 最終行まで読み込む
+            String line = "";
+            while ((line = br.readLine()) != null) {
+
+                // 1行をデータの要素に分割
+                StringTokenizer st = new StringTokenizer(line, ",");
+
+                while (st.hasMoreTokens()) {
+                    // 1行の各要素をタブ区切りで表示
+                    for(int i=0; i<sensors.size(); i++) {
+                        sensors.get(i).appendHistory(Integer.parseInt(st.nextToken()));
+                    }
+                }
+            }
+            br.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("OK");
+    }
+
     public static void setLayoutPane(LayoutPane p) {
         pane = p;
     }
@@ -215,6 +250,15 @@ public class SimulationController {
         pane.repaint();
     }
 
+    public static void setIlluminanceLabelVisible(boolean visible) {
+        if(visible) {
+            pane.add(pane.illuminance_layout, JLayeredPane.DEFAULT_LAYER);
+            pane.setLayer(pane.illuminance_layout, 300);
+        } else {
+            pane.remove(pane.illuminance_layout);
+        }
+    }
+
     public static void setSensorLayoutVisible(boolean visible) {
         if(visible) {
             pane.add(pane.sensor_layout, JLayeredPane.DEFAULT_LAYER);
@@ -253,10 +297,16 @@ public class SimulationController {
                 light_canvas.get(i).setBackground(new Color(206, 198, 206));
             }
         }
+
+        if(SimulationController.isIlluminanceLoaded)
+        for(int i=0; i<sensors.size(); i++) {
+            illuminanceLabels.get(i).setText(Integer.toString(sensors.get(i).getLum(step)) + " lx");
+        }
     }
 
     public static void updateCanvas() {
-        canvas.repaint();
+        // canvas.repaint();
+        pane.repaint();
     }
 
     public static void startAnimation() {

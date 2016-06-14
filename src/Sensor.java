@@ -22,6 +22,8 @@ public class Sensor {
         lum_history.add(l);
     }
 
+    public void clearHistory() {lum_history.clear();}
+
     public double getX() {
         return x;
     }

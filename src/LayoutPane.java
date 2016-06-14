@@ -1,6 +1,5 @@
 import javax.swing.*;
 
-import org.apache.batik.svggen.SimpleImageHandler;
 import org.apache.batik.swing.*;
 
 import java.awt.*;
@@ -10,7 +9,7 @@ import java.util.ArrayList;
  * Created by RyotoTomioka on 2016/05/26.
  */
 public class LayoutPane extends JLayeredPane{
-    public JPanel light_layout, luminosity_layout, luminosityPct_layout, sensor_layout;
+    public JPanel light_layout, illuminance_layout, luminosity_layout, luminosityPct_layout, sensor_layout;
     public KC111Canvas light_pattern;
     private JSVGCanvas room_layout;
 
@@ -38,6 +37,7 @@ public class LayoutPane extends JLayeredPane{
         setSensor_layout();
         setLight_Pattern();
         setLuminosity_layout();
+        setIlluminanse_layout();
 
         SimulationController.setLightPatternVisible(true);
         SimulationController.setSensorLayoutVisible(true);
@@ -75,6 +75,24 @@ public class LayoutPane extends JLayeredPane{
 
         for (JSVGCanvas canvas : SimulationController.sensor_canvas) {
             sensor_layout.add(canvas);
+        }
+    }
+
+    public void setIlluminanse_layout() {
+        illuminance_layout = new JPanel();
+        illuminance_layout.setOpaque(false);
+        illuminance_layout.setBounds(2+getWidth()/2-(ROOM_WIDTH /2), 6+(getHeight()-30)/2-(ROOM_HEIGHT /2), ROOM_WIDTH -4, ROOM_HEIGHT -12);
+        illuminance_layout.setLayout(null);
+
+        ArrayList<Sensor> sensors = SimulationController.sensors;
+        ArrayList<JLabel> labels = SimulationController.illuminanceLabels;
+        for(int i=0; i<sensors.size(); i++) {
+            labels.get(i).setFont(new Font("", Font.PLAIN, 18));
+            labels.get(i).setOpaque(true);
+            labels.get(i).setBackground(new Color(255, 255, 255, 200));
+            labels.get(i).setHorizontalAlignment(JLabel.CENTER);
+            labels.get(i).setBounds((int)((sensors.get(i).getX())*50-35), (int)((sensors.get(i).getY())*50-12), 70, 25);
+            illuminance_layout.add(labels.get(i));
         }
     }
 

@@ -72,6 +72,14 @@ public class ControlPanel extends JPanel implements ActionListener, ChangeListen
         ck_showSensor.setSelected(true);
         sensorConfigTable.add(ck_showSensor);
 
+        JCheckBox ck_showIlluminance = new JCheckBox("現在照度値");
+        SimulationController.checkBox_showIlluminance = ck_showIlluminance;
+        ck_showIlluminance.setSelected(false);
+        ck_showIlluminance.setEnabled(false);
+        ck_showIlluminance.setActionCommand("showIlluminance");
+        ck_showIlluminance.addActionListener(this);
+        sensorConfigTable.add(ck_showIlluminance);
+
         // アニメーションパネル
         JPanel animationPanel = new JPanel();
         animationPanel.setLayout(new FlowLayout());
@@ -151,6 +159,9 @@ public class ControlPanel extends JPanel implements ActionListener, ChangeListen
             SimulationController.startAnimation();
         } else if(e.getActionCommand().equals("btn_stop")) {
             SimulationController.stopAnimation();
+        } else if(e.getActionCommand().equals("showIlluminance")) {
+            JCheckBox tmp = (JCheckBox)e.getSource();
+            SimulationController.setIlluminanceLabelVisible(tmp.isSelected());
         }
     }
 
