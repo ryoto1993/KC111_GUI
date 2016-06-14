@@ -6,6 +6,7 @@ import java.awt.*;
  */
 public class MainFrame extends JFrame {
     LayoutPane layoutPane;
+    MyMenuBar menubar;
 
     MainFrame() {
         super();
@@ -20,7 +21,7 @@ public class MainFrame extends JFrame {
         } catch (Exception e) {}
 
         this.setTitle("KC111シミュレータ");
-        this.setSize(new Dimension(800, 840));
+        this.setSize(new Dimension(800, 800));
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 
         this.setLayout(new BorderLayout());
@@ -28,6 +29,9 @@ public class MainFrame extends JFrame {
         layoutPane = new LayoutPane(new Dimension(800, 600));
         this.getContentPane().add(layoutPane, BorderLayout.CENTER);
         this.getContentPane().add(new ControlPanel(), BorderLayout.SOUTH);
+
+        menubar = new MyMenuBar();
+        this.setJMenuBar(menubar);
 
         this.setVisible(true);
     }
