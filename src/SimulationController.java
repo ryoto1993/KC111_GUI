@@ -192,7 +192,7 @@ public class SimulationController {
         } else {
             for (int i=0; i<lights.size(); i++) {
                 luminosityLabels.get(i).setText(Integer.toString(lights.get(i).getLum(step)) + " cd");
-                light_canvas.get(i).setBackground(new Color(242, 150, 0));
+                light_canvas.get(i).setBackground(new Color(206, 198, 206));
             }
         }
     }
