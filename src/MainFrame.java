@@ -20,7 +20,7 @@ public class MainFrame extends JFrame {
         } catch (Exception e) {}
 
         this.setTitle("KC111シミュレータ");
-        this.setSize(new Dimension(800, 750));
+        this.setSize(new Dimension(800, 790));
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 
         this.setLayout(new BorderLayout());

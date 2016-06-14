@@ -11,29 +11,60 @@ import java.awt.event.ActionListener;
 public class ControlPanel extends JPanel implements ActionListener, ChangeListener{
 
     public ControlPanel() {
-        this.setLayout(new GridLayout(5, 1));
-        this.setPreferredSize(new Dimension(getWidth(), 150));
+        this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+        this.setPreferredSize(new Dimension(getWidth(), 190));
+
+        JPanel checkBoxTable = new JPanel(new GridLayout(0,2));
+        JPanel lightConfigTable = new JPanel();
+        JPanel sensorConfigTable = new JPanel();
+        lightConfigTable.setLayout(new BoxLayout(lightConfigTable, BoxLayout.PAGE_AXIS));
+        sensorConfigTable.setLayout(new BoxLayout(sensorConfigTable, BoxLayout.PAGE_AXIS));
+        checkBoxTable.add(lightConfigTable);
+        checkBoxTable.add(sensorConfigTable);
+
+        this.add(checkBoxTable);
 
         // 照明表示/非表示切り替え
-        JCheckBox ck_showLight = new JCheckBox("照明");
+        JCheckBox ck_showLight = new JCheckBox("照明位置");
         ck_showLight.setActionCommand("showLight");
         ck_showLight.addActionListener(this);
         ck_showLight.setSelected(true);
-        this.add(ck_showLight);
+        lightConfigTable.add(ck_showLight);
 
         // 点灯パターン表示/非表示切り替え
         JCheckBox ck_showPattern = new JCheckBox("照明点灯パターン");
         ck_showPattern.setActionCommand("showPattern");
         ck_showPattern.addActionListener(this);
         ck_showPattern.setSelected(true);
-        this.add(ck_showPattern);
+        lightConfigTable.add(ck_showPattern);
 
         // 照明点灯光度による色の切り替え
         JCheckBox ck_changeColor = new JCheckBox("照明点灯光度による色の切り替え");
         ck_changeColor.setActionCommand("changeColor");
         ck_changeColor.addActionListener(this);
         ck_changeColor.setSelected(false);
-        this.add(ck_changeColor);
+        lightConfigTable.add(ck_changeColor);
+
+        // 照明情報表示切替
+        ButtonGroup group_lightInfo = new ButtonGroup();
+        JRadioButton radio_light_ill = new JRadioButton("現在光度", true);
+        JRadioButton radio_light_pct = new JRadioButton("点灯光度率", false);
+        JRadioButton radio_light_nul = new JRadioButton("非表示", false);
+        group_lightInfo.add(radio_light_ill);
+        group_lightInfo.add(radio_light_pct);
+        group_lightInfo.add(radio_light_nul);
+        JPanel panel_lightInfo = new JPanel();
+        panel_lightInfo.add(radio_light_ill);
+        panel_lightInfo.add(radio_light_pct);
+        panel_lightInfo.add(radio_light_nul);
+        lightConfigTable.add(panel_lightInfo);
+
+        // センサ位置表示切り替え
+        JCheckBox ck_showSensor = new JCheckBox("センサ位置");
+        ck_showSensor.setActionCommand("showSensor");
+        ck_showSensor.addActionListener(this);
+        ck_showSensor.setSelected(true);
+        sensorConfigTable.add(ck_showSensor);
 
         // アニメーションパネル
         JPanel animationPanel = new JPanel();
@@ -105,6 +136,13 @@ public class ControlPanel extends JPanel implements ActionListener, ChangeListen
         } else if(e.getActionCommand().equals("changeColor")) {
             JCheckBox tmp = (JCheckBox) e.getSource();
             SimulationController.lightColorChangeMode = tmp.isSelected();
+        } else if(e.getActionCommand().equals("showSensor")) {
+            JCheckBox tmp = (JCheckBox) e.getSource();
+            if(tmp.isSelected()) {
+                SimulationController.setSensorLayoutVisible(true);
+            } else {
+                SimulationController.setSensorLayoutVisible(false);
+            }
         } else if(e.getActionCommand().equals("btn_play")) {
             SimulationController.startAnimation();
         } else if(e.getActionCommand().equals("btn_stop")) {
