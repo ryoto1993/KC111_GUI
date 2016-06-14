@@ -30,7 +30,7 @@ public class LayoutPane extends JLayeredPane{
         this.setLayer(background, -1000);
 
         SimulationController.setLight();
-        SimulationController.setLightHistory();
+        SimulationController.setLightHistory("data/log_a.csv");
         SimulationController.setSensor();
 
         setLight_layout();

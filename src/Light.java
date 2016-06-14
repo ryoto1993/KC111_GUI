@@ -24,6 +24,10 @@ public class Light {
         lum_history.add(l);
     }
 
+    public void clearHistory() {
+        lum_history.clear();
+    }
+
     public int getX() {
         return x;
     }

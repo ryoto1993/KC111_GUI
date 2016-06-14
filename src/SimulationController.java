@@ -99,9 +99,14 @@ public class SimulationController {
         }
     }
 
-    public static void setLightHistory() {
+    public static void setLightHistory(String path) {
+
+        for(int i=0; i<lights.size(); i++) {
+            lights.get(i).clearHistory();
+        }
+
         try {
-            File csv = new File("data/log_a.csv"); // CSVデータファイル
+            File csv = new File(path); // CSVデータファイル
             BufferedReader br = new BufferedReader(new FileReader(csv));
 
             // 最終行まで読み込む
@@ -125,6 +130,40 @@ public class SimulationController {
             e.printStackTrace();
         }
         SimulationController.stepMax = lights.get(0).getLum_history().size() - 1;
+        sl_step.setMaximum(stepMax);
+
+    }
+
+    public static void setLightHistory(File csv) {
+        for(int i=0; i<lights.size(); i++) {
+            lights.get(i).clearHistory();
+        }
+
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(csv));
+
+            // 最終行まで読み込む
+            String line = "";
+            while ((line = br.readLine()) != null) {
+
+                // 1行をデータの要素に分割
+                StringTokenizer st = new StringTokenizer(line, ",");
+
+                while (st.hasMoreTokens()) {
+                    // 1行の各要素をタブ区切りで表示
+                    for(int i=0; i<lights.size(); i++) {
+                        lights.get(i).appendHistory(Integer.parseInt(st.nextToken()));
+                    }
+                }
+            }
+            br.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        SimulationController.stepMax = lights.get(0).getLum_history().size() - 1;
+        sl_step.setMaximum(stepMax);
 
     }
 

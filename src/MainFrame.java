@@ -32,7 +32,12 @@ public class MainFrame extends JFrame {
 
         menubar = new MyMenuBar();
         this.setJMenuBar(menubar);
+        MyMenuBar.mainFrame = this;
 
         this.setVisible(true);
+    }
+
+    public void changeTitle(String file_name) {
+        this.setTitle("KC111シミュレータ (" + file_name + ")");
     }
 }
