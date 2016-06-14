@@ -1,4 +1,6 @@
 import javax.swing.*;
+
+import org.apache.batik.svggen.SimpleImageHandler;
 import org.apache.batik.swing.*;
 
 import java.awt.*;
@@ -8,7 +10,7 @@ import java.util.ArrayList;
  * Created by RyotoTomioka on 2016/05/26.
  */
 public class LayoutPane extends JLayeredPane{
-    public JPanel light_layout, luminosity_layout, sensor_layout;
+    public JPanel light_layout, luminosity_layout, luminosityPct_layout, sensor_layout;
     public KC111Canvas light_pattern;
     private JSVGCanvas room_layout;
 
@@ -82,12 +84,24 @@ public class LayoutPane extends JLayeredPane{
         luminosity_layout.setBounds(2+getWidth()/2-(ROOM_WIDTH /2), 6+(getHeight()-30)/2-(ROOM_HEIGHT /2), ROOM_WIDTH -4, ROOM_HEIGHT -12);
         luminosity_layout.setLayout(null);
 
+        luminosityPct_layout = new JPanel();
+        luminosityPct_layout.setOpaque(false);
+        luminosityPct_layout.setBounds(2+getWidth()/2-(ROOM_WIDTH /2), 6+(getHeight()-30)/2-(ROOM_HEIGHT /2), ROOM_WIDTH -4, ROOM_HEIGHT -12);
+        luminosityPct_layout.setLayout(null);
+
         ArrayList<Light> lights = SimulationController.lights;
         ArrayList<JLabel> labels = SimulationController.luminosityLabels;
         for(int i=0; i<lights.size(); i++) {
             labels.get(i).setHorizontalAlignment(JLabel.CENTER);
             labels.get(i).setBounds((lights.get(i).getX()-1)*50, (lights.get(i).getY()-1)*50, 50, 50);
             luminosity_layout.add(labels.get(i));
+        }
+
+        ArrayList<JLabel> pctLabels = SimulationController.luminosityPctLabels;
+        for(int i=0; i<lights.size(); i++) {
+            pctLabels.get(i).setHorizontalAlignment(JLabel.CENTER);
+            pctLabels.get(i).setBounds((lights.get(i).getX()-1)*50, (lights.get(i).getY()-1)*50, 50, 50);
+            luminosityPct_layout.add(pctLabels.get(i));
         }
     }
 

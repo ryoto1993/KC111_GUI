@@ -15,12 +15,13 @@ public class SimulationController {
     public static ArrayList<Light> lights = new ArrayList<>();
     public static ArrayList<Sensor> sensors = new ArrayList<>();
     public static ArrayList<JLabel> luminosityLabels = new ArrayList<>();
+    public static ArrayList<JLabel> luminosityPctLabels = new ArrayList<>();
     public static ArrayList<JLabel> luminanceLabels = new ArrayList<>();
     public static ArrayList<JLabel> targetLuminanceLabels = new ArrayList<>();
     public static ArrayList<JSVGCanvas> light_canvas = new ArrayList<>();
     public static ArrayList<JSVGCanvas> sensor_canvas = new ArrayList<>();
     private static int step = 0;
-    public static int stepMax = 1000;
+    public static int stepMax;
     public static boolean lightColorChangeMode = false;
     public static JLabel stepLabel = new JLabel();
     public static JSlider animationSpeed = new JSlider(1, 20);
@@ -44,6 +45,7 @@ public class SimulationController {
                     // 1行の各要素をタブ区切りで表示
                     lights.add(new Light(Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken())));
                     luminosityLabels.add(new JLabel());
+                    luminosityPctLabels.add(new JLabel());
 
                     JSVGCanvas canvas = new JSVGCanvas();
                     canvas.setURI("svg/light_op.svg");
@@ -158,6 +160,16 @@ public class SimulationController {
         pane.repaint();
     }
 
+    public static void setLuminosityPctLabelVisible(boolean visible) {
+        if(visible) {
+            pane.add(pane.luminosityPct_layout, JLayeredPane.DEFAULT_LAYER);
+            pane.setLayer(pane.luminosityPct_layout, 120);
+        } else {
+            pane.remove(pane.luminosityPct_layout);
+        }
+        pane.repaint();
+    }
+
     public static void setSensorLayoutVisible(boolean visible) {
         if(visible) {
             pane.add(pane.sensor_layout, JLayeredPane.DEFAULT_LAYER);
@@ -183,6 +195,7 @@ public class SimulationController {
                 double lum = (double) lights.get(i).getLum(step);
                 double max = Light.MAXLUM;
                 luminosityLabels.get(i).setText(Integer.toString(lights.get(i).getLum(step)) + " cd");
+                luminosityPctLabels.get(i).setText(Integer.toString((int)(100*(double)lights.get(i).getLum(step) / (double)Light.MAXLUM)) + " %");
                 int r = (int) (204 + 38 * (lum / max));
                 int g = (int) (204 - 54 * (lum / max));
                 int b = (int) (204 - 204 * (lum / max));
@@ -191,6 +204,7 @@ public class SimulationController {
         } else {
             for (int i=0; i<lights.size(); i++) {
                 luminosityLabels.get(i).setText(Integer.toString(lights.get(i).getLum(step)) + " cd");
+                luminosityPctLabels.get(i).setText(Integer.toString((int)(100*(double)lights.get(i).getLum(step) / (double)Light.MAXLUM)) + " %");
                 light_canvas.get(i).setBackground(new Color(206, 198, 206));
             }
         }

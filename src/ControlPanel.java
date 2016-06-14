@@ -48,6 +48,14 @@ public class ControlPanel extends JPanel implements ActionListener, ChangeListen
         JRadioButton radio_light_ill = new JRadioButton("現在光度", true);
         JRadioButton radio_light_pct = new JRadioButton("点灯光度率", false);
         JRadioButton radio_light_nul = new JRadioButton("非表示", false);
+        radio_light_ill.addChangeListener(e -> {
+            JRadioButton b = (JRadioButton)e.getSource();
+            SimulationController.setLuminosityLabelVisible(b.isSelected());
+        });
+        radio_light_pct.addChangeListener(e -> {
+            JRadioButton b = (JRadioButton)e.getSource();
+            SimulationController.setLuminosityPctLabelVisible(b.isSelected());
+        });
         group_lightInfo.add(radio_light_ill);
         group_lightInfo.add(radio_light_pct);
         group_lightInfo.add(radio_light_nul);
