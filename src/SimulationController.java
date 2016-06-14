@@ -34,6 +34,12 @@ public class SimulationController {
             File csv = new File("data/light.csv"); // CSVデータファイル
             BufferedReader br = new BufferedReader(new FileReader(csv));
 
+            // 初期化
+            lights.clear();
+            luminanceLabels.clear();
+            luminosityPctLabels.clear();
+            light_canvas.clear();
+
             // 最終行まで読み込む
             String line = "";
             while ((line = br.readLine()) != null) {
@@ -95,7 +101,7 @@ public class SimulationController {
 
     public static void setLightHistory() {
         try {
-            File csv = new File("data/log.csv"); // CSVデータファイル
+            File csv = new File("data/log_a.csv"); // CSVデータファイル
             BufferedReader br = new BufferedReader(new FileReader(csv));
 
             // 最終行まで読み込む

@@ -6,7 +6,7 @@ import java.util.ArrayList;
 public class Light {
     static int ID = 0;
     static int MINLUM = 0;
-    static int MAXLUM = 1300;
+    static int MAXLUM = 1000;
 
     private int id;
     private int x, y;
