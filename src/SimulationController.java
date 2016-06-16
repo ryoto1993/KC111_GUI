@@ -269,6 +269,24 @@ public class SimulationController {
         pane.repaint();
     }
 
+    public static void setRoomLayoutVisible(boolean visible) {
+        if(visible) {
+            pane.add(pane.room_layout, JLayeredPane.DEFAULT_LAYER);
+            pane.setLayer(pane.room_layout, 0);
+        } else {
+            pane.remove(pane.room_layout);
+        }
+    }
+
+    public static void setRoomGridVisible(boolean visible) {
+        if(visible) {
+            pane.add(pane.room_grid_layout, JLayeredPane.DEFAULT_LAYER);
+            pane.setLayer(pane.room_grid_layout, -1);
+        } else {
+            pane.remove(pane.room_grid_layout);
+        }
+    }
+
     public static int getStep() {
         return step;
     }

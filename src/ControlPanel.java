@@ -1,3 +1,5 @@
+import sun.plugin.net.protocol.jar.CachedJarURLConnection;
+
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -12,15 +14,35 @@ public class ControlPanel extends JPanel implements ActionListener, ChangeListen
 
     public ControlPanel() {
         this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
-        JPanel checkBoxTable = new JPanel(new GridLayout(0,2));
+        JPanel checkBoxTable = new JPanel(new GridLayout(0,3));
+        JPanel roomConfigTable = new JPanel();
         JPanel lightConfigTable = new JPanel();
         JPanel sensorConfigTable = new JPanel();
+        roomConfigTable.setLayout(new BoxLayout(roomConfigTable, BoxLayout.PAGE_AXIS));
+        roomConfigTable.setBackground(new Color(165,214,167));
         lightConfigTable.setLayout(new BoxLayout(lightConfigTable, BoxLayout.PAGE_AXIS));
+        lightConfigTable.setBackground(new Color(144,202,249));
         sensorConfigTable.setLayout(new BoxLayout(sensorConfigTable, BoxLayout.PAGE_AXIS));
+        sensorConfigTable.setBackground(new Color(255,204,128));
+        checkBoxTable.add(roomConfigTable);
         checkBoxTable.add(lightConfigTable);
         checkBoxTable.add(sensorConfigTable);
 
         this.add(checkBoxTable);
+
+        // 部屋の枠表示切替
+        JCheckBox ck_showRoomLayout = new JCheckBox("部屋の枠を表示");
+        ck_showRoomLayout.setActionCommand("showRoom");
+        ck_showRoomLayout.addActionListener(this);
+        ck_showRoomLayout.setSelected(true);
+        roomConfigTable.add(ck_showRoomLayout);
+
+        // グリッド表示切り替え
+        JCheckBox ck_showRoomGrid = new JCheckBox("部屋のグリッドを表示");
+        ck_showRoomGrid.setActionCommand("showGrid");
+        ck_showRoomGrid.addActionListener(this);
+        ck_showRoomGrid.setSelected(true);
+        roomConfigTable.add(ck_showRoomGrid);
 
         // 照明表示/非表示切り替え
         JCheckBox ck_showLight = new JCheckBox("照明位置");
@@ -60,6 +82,7 @@ public class ControlPanel extends JPanel implements ActionListener, ChangeListen
         group_lightInfo.add(radio_light_pct);
         group_lightInfo.add(radio_light_nul);
         JPanel panel_lightInfo = new JPanel();
+        panel_lightInfo.setLayout(new FlowLayout());
         panel_lightInfo.add(radio_light_ill);
         panel_lightInfo.add(radio_light_pct);
         panel_lightInfo.add(radio_light_nul);
@@ -162,6 +185,14 @@ public class ControlPanel extends JPanel implements ActionListener, ChangeListen
         } else if(e.getActionCommand().equals("showIlluminance")) {
             JCheckBox tmp = (JCheckBox)e.getSource();
             SimulationController.setIlluminanceLabelVisible(tmp.isSelected());
+        } else if(e.getActionCommand().equals("showRoom")) {
+            JCheckBox tmp = (JCheckBox)e.getSource();
+            SimulationController.setRoomLayoutVisible(tmp.isSelected());
+            SimulationController.updateCanvas();
+        } else if(e.getActionCommand().equals("showGrid")) {
+            JCheckBox tmp = (JCheckBox)e.getSource();
+            SimulationController.setRoomGridVisible(tmp.isSelected());
+            SimulationController.updateCanvas();
         }
     }
 

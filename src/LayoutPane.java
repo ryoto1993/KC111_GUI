@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class LayoutPane extends JLayeredPane{
     public JPanel light_layout, illuminance_layout, luminosity_layout, luminosityPct_layout, sensor_layout;
     public KC111Canvas light_pattern;
-    private JSVGCanvas room_layout;
+    public JSVGCanvas room_layout, room_grid_layout;
 
     private static int ROOM_WIDTH = 604, ROOM_HEIGHT = 562;
 
@@ -34,6 +34,7 @@ public class LayoutPane extends JLayeredPane{
 
         setLight_layout();
         setRoom_layout();
+        setRoomGrid_layout();
         setSensor_layout();
         setLight_Pattern();
         setLuminosity_layout();
@@ -43,16 +44,27 @@ public class LayoutPane extends JLayeredPane{
         SimulationController.setSensorLayoutVisible(true);
         SimulationController.setLightLayoutVisible(true);
         SimulationController.setLuminosityLabelVisible(true);
-        setRoomLayoutVisible(true);
+        SimulationController.setRoomLayoutVisible(true);
+        SimulationController.setRoomGridVisible(true);
 
         SimulationController.setStep(0);
     }
 
     public void setRoom_layout() {
         room_layout = new JSVGCanvas();
-        room_layout.setURI("svg/KC111_Ceiling.svg");
+        room_layout.setURI("svg/KC111_layout.svg");
         room_layout.setBounds(getWidth()/2-(ROOM_WIDTH /2), (getHeight()-30)/2-(ROOM_HEIGHT /2), ROOM_WIDTH, ROOM_HEIGHT);
         room_layout.setOpaque(false);
+        room_layout.setBackground(new Color(255,255,255,0));
+    }
+
+    public void setRoomGrid_layout() {
+        room_grid_layout = new JSVGCanvas();
+        room_grid_layout.setURI("svg/KC111_grid.svg");
+        room_grid_layout.setBounds(getWidth()/2-(ROOM_WIDTH /2), (getHeight()-30)/2-(ROOM_HEIGHT /2), ROOM_WIDTH, ROOM_HEIGHT);
+        room_grid_layout.setOpaque(false);
+        room_grid_layout.setBackground(new Color(255,255,255,0));
+
     }
 
     public void setLight_layout() {
@@ -127,14 +139,5 @@ public class LayoutPane extends JLayeredPane{
         light_pattern = new KC111Canvas();
         light_pattern.setBounds(2+getWidth()/2-(ROOM_WIDTH /2), 6+(getHeight()-30)/2-(ROOM_HEIGHT /2), ROOM_WIDTH -4, ROOM_HEIGHT -12);
         light_pattern.setOpaque(false);
-    }
-
-    public void setRoomLayoutVisible(boolean visible) {
-        if(visible) {
-            this.add(room_layout, JLayeredPane.DEFAULT_LAYER);
-            this.setLayer(room_layout, 0);
-        } else {
-            this.remove(room_layout);
-        }
     }
 }
