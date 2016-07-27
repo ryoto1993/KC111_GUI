@@ -301,8 +301,8 @@ public class SimulationController {
             for (int i = 0; i < lights.size(); i++) {
                 double lum = (double) lights.get(i).getLum(step);
                 double max = Light.MAXLUM;
-                luminosityLabels.get(i).setText(Integer.toString(lights.get(i).getLum(step)) + " cd");
-                luminosityPctLabels.get(i).setText(Integer.toString((int)(100*(double)lights.get(i).getLum(step) / (double)Light.MAXLUM)) + " %");
+                luminosityLabels.get(i).setText(Integer.toString(lights.get(i).getLum(step)));
+                luminosityPctLabels.get(i).setText(Integer.toString((int)(100*(double)lights.get(i).getLum(step) / (double)Light.MAXLUM)));
                 int r = (int) (204 + 38 * (lum / max));
                 int g = (int) (204 - 54 * (lum / max));
                 int b = (int) (204 - 204 * (lum / max));
@@ -310,15 +310,15 @@ public class SimulationController {
             }
         } else {
             for (int i=0; i<lights.size(); i++) {
-                luminosityLabels.get(i).setText(Integer.toString(lights.get(i).getLum(step)) + " cd");
-                luminosityPctLabels.get(i).setText(Integer.toString((int)(100*(double)lights.get(i).getLum(step) / (double)Light.MAXLUM)) + " %");
+                luminosityLabels.get(i).setText(Integer.toString(lights.get(i).getLum(step)));
+                luminosityPctLabels.get(i).setText(Integer.toString((int)(100*(double)lights.get(i).getLum(step) / (double)Light.MAXLUM)));
                 light_canvas.get(i).setBackground(new Color(206, 198, 206));
             }
         }
 
         if(SimulationController.isIlluminanceLoaded)
         for(int i=0; i<sensors.size(); i++) {
-            illuminanceLabels.get(i).setText(Integer.toString(sensors.get(i).getLum(step)) + " lx");
+            illuminanceLabels.get(i).setText(Integer.toString(sensors.get(i).getLum(step)));
         }
     }
 
